@@ -1,0 +1,52 @@
+@startuml vlease_component_backend
+!include <C4/C4_Component.puml>
+!include https://raw.githubusercontent.com/benlye/mw-abb/main/lib/mwabb.puml
+
+Container_Boundary(apiApplication, "Backend Automation") {
+    Component(processLeases, "Process Leases Script", "PowerShell", "Backend automation process which interacts with Horizon")
+    Component(processNew, "NewLeases Routine", "PowerShell", "Creates Horizon entitlements for new leases")
+    Component(processExpiring, "ExpiringLeases Routine", "PowerShell", "Sends email prior to lease expiry")
+    Component(processExpired, "ExpiredLeases Routine", "PowerShell", "Removes Horizon entitlements for expired leases and puts VMs into maintenance mode")
+    Component(processDeleted, "DeletedLeases Routine", "PowerShell", "Removes Horizon entitlements for deleted leases and deletes the VMs")
+    Component(processActive, "ActiveLeases Routine", "PowerShell", "Updates active lease record with name of assigned VM")
+}
+
+System_Boundary(horizon, "VMware Horizon") {
+    System_Ext(horizonVdi_AH, "Horizon (AH)", "VMware Horizon Pool")
+    System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
+}
+
+System_Ext(activeBatch, "ActiveBatch", "Job Scheduling Platform")
+System_Ext(activeDirectory, "Active Directory", "Directory Service")
+
+ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")
+System_Ext(mailVif, "mail-vif", "Internal SMTP relay")
+System_Ext(teams, "Microsoft Teams", "Communications Platform")
+
+Rel(activeBatch, processLeases, "Runs script every 5 minutes")
+Rel(processLeases, activeDirectory, "Retrieves user metadata", "ldaps")
+Rel(processLeases, teams, "Sends logs to", "https")
+Rel(processLeases, processNew, "Runs")
+Rel(processLeases, processExpiring, "Runs")
+Rel(processLeases, processExpired, "Runs")
+Rel(processLeases, processDeleted, "Runs")
+Rel(processLeases, processActive, "Runs")
+
+Rel(processNew, vLeaseDatabase, "Reads from and writes to", "SimplySQL")
+Rel(processNew, horizon, "Creates entitlements", "https")
+Rel(processNew, mailVif, "Sends email using", "smtp")
+
+Rel(processExpiring, vLeaseDatabase, "Reads from and writes to", "SimplySQL")
+Rel(processExpiring, mailVif, "Sends email using", "smtp")
+
+Rel(processExpired, vLeaseDatabase, "Reads from and writes to", "SimplySQL")
+Rel(processExpired, horizon, "Removes entitlements and archives VMs", "https")
+Rel(processExpired, mailVif, "Sends email using", "smtp")
+
+Rel(processDeleted, vLeaseDatabase, "Reads from and writes to", "SimplySQL")
+Rel(processDeleted, horizon, "Removes entitlements and deletes VMs", "https")
+Rel(processDeleted, mailVif, "Sends email using", "smtp")
+
+Rel(processActive, vLeaseDatabase, "Reads from and writes to", "SimplySQL")
+
+@enduml

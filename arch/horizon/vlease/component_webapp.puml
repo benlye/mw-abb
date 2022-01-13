@@ -1,0 +1,30 @@
+@startuml vlease_component_webapp
+!include <C4/C4_Component.puml>
+!include https://raw.githubusercontent.com/benlye/mw-abb/main/lib/mwabb.puml
+
+Container_Boundary(apiApplication, "Web Application") {
+    Component(webApp, "Web App", "PHP", "Delivers static content and the single-page application")
+    Component(singlePageWebApp, "Single-Page Web App", "Javscript", "Front end app where users can request and manage short-term virtual desktop leases.")
+    Component(getLeases, "Get Leases Controller", "PHP", "Gets current leases from the database")
+    Component(newLease, "New Lease Controller", "PHP", "Creates a new lease in the database")
+    Component(extendLease, "Extend Lease Controller", "PHP", "Extends the duration of an existing lease")
+    Component(deleteLease, "Delete Lease Controller", "PHP", "Deletes an existing lease")
+}
+System_Ext(pingId, "PingID", "Identity provider")
+System_Ext(activeDirectory, "Active Directory", "Directory Service")
+ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")
+Rel(webApp, singlePageWebApp, "Delivers to the user's browser")
+Rel(singlePageWebApp, getLeases, "Makes API calls to", "https")
+Rel(singlePageWebApp, newLease, "Makes API calls to", "https")
+Rel(singlePageWebApp, extendLease, "Makes API calls to", "https")
+Rel(singlePageWebApp, deleteLease, "Makes API calls to", "https")
+
+Rel(webApp, pingId, "Authenticates user using", "https")
+Rel(webApp, activeDirectory, "Retrieves user's metadata from", "ldaps")
+
+Rel(getLeases, vLeaseDatabase, "Reads from", "PDO")
+Rel(newLease, vLeaseDatabase, "Reads from and writes to", "PDO")
+Rel(extendLease, vLeaseDatabase, "Reads from and writes to", "PDO")
+Rel(deleteLease, vLeaseDatabase, "Reads from and writes to", "PDO")
+
+@enduml
