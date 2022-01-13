@@ -2,24 +2,26 @@
 !include <C4/C4_Context.puml>
 !include https://raw.githubusercontent.com/benlye/mw-abb/main/lib/mwabb.puml
 
-Person(mwDeveloper, "MathWorks Developer")
-Person(vLeaseAdmin, "vLease Admin")
+Enterprise_Boundary(mathworks ,"MathWorks") {
+    Person(mwDeveloper, "MathWorks Developer")
+    Person(vLeaseAdmin, "vLease Admin")
 
-System_Boundary(insidePlatform, "Inside Platform") {
-    System(vLease, "vLease System", "App for VDI users to request and manage short-term virtual desktop leases.")
+    System_Boundary(insidePlatform, "Inside Platform") {
+        System(vLease, "vLease System", "App for VDI users to request and manage short-term virtual desktop leases.", $link="https://confluence.mathworks.com/x/aj42J")
+    }
+
+    System_Boundary(horizon, "VMware Horizon") {
+        System_Ext(horizonVdi_AH, "Horizon (AH)", "VMware Horizon Pool")
+        System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
+    }
+
+    MailVif(mailVif)
+    ActiveBatch(activeBatch)
+    PingID(pingId)
+    ActiveDirectory(activeDirectory)
+
+    System_Ext(teams, "Microsoft Teams", "Communications Platform")
 }
-
-System_Boundary(horizon, "VMware Horizon") {
-    System_Ext(horizonVdi_AH, "Horizon (AH)", "VMware Horizon Pool")
-    System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
-}
-
-MailVif(mailVif)
-ActiveBatch(activeBatch)
-PingID(pingId)
-ActiveDirectory(activeDirectory)
-
-System_Ext(teams, "Microsoft Teams", "Communications Platform")
 
 Rel(mwDeveloper, vLease, "Requests and manages their own leases", "https")
 Rel(vLeaseAdmin, vLease, "Requests and manages leases on behalf of others", "https")

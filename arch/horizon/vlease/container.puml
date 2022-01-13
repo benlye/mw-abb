@@ -1,0 +1,39 @@
+@startuml vlease_container
+!include <C4/C4_Container.puml>
+!include https://raw.githubusercontent.com/benlye/mw-abb/main/lib/mwabb.puml
+
+Person(mwDeveloper, "MathWorks Developer")
+Person(vLeaseAdmin, "vLease Admin")
+
+System_Boundary(vLease, "vLease System") {
+    Container(vLeasePortal, "Web Application", "PHP, Javscript", "Front end app where users can request and manage short-term virtual desktop leases.")
+    Container(vLeasePowerShell, "Backend Automation", "PowerShell", "Adds and removes VDI pool entitlements based on database records")
+    ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")
+}
+
+System_Boundary(horizon, "VMware Horizon") {
+    System_Ext(horizonVdi_AH, "Horizon (AH)", "VMware Horizon Pool")
+    System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
+}
+
+System_Ext(mailVif, "mail-vif", "Internal SMTP relay")
+System_Ext(activeBatch, "ActiveBatch", "Job Scheduling Platform")
+System_Ext(pingId, "PingID", "Identity provider")
+System_Ext(activeDirectory, "Active Directory", "Directory Service")
+
+Rel(vLeasePortal, vLeaseDatabase, "Stores and updates lease records")
+Rel(vLeasePowerShell, vLeaseDatabase, "Retrieves and updates lease records")
+Rel(activeBatch, vLeasePowerShell, "Triggers backend script every 5 minutes")
+Rel(vLeasePortal, pingId, "Authenticates users", "https")
+Rel(vLeasePortal, activeDirectory, "Retrieves user metadata", "ldaps")
+Rel(vLeasePowerShell, activeDirectory, "Retrieves user metadata", "ldaps")
+System_Ext(teams, "Microsoft Teams", "Communications Platform")
+
+Rel(mwDeveloper, vLeasePortal, "Requests and manages their own leases", "https")
+Rel(vLeaseAdmin, vLeasePortal, "Requests and manages leases on behalf of others", "https")
+Rel(vLeasePowerShell, mailVif, "Sends email using", "smtp")
+Rel(vLeasePowerShell, horizonVdi_AH, "Manages user entitlements", "https")
+Rel(vLeasePowerShell, horizonVdi_BGL, "Manages user entitlements", "https")
+Rel(vLeasePowerShell, teams, "Sends logs to", "https")
+
+@enduml
