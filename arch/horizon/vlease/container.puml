@@ -5,7 +5,7 @@
 Person(mwDeveloper, "MathWorks Developer")
 Person(vLeaseAdmin, "vLease Admin")
 
-System_Boundary(vLease, "vLease System") {
+System_Boundary(vLease, "vLease") {
     Container(vLeasePortal, "Web Application", "PHP, Javscript", "Front end app where users can request and manage short-term virtual desktop leases.", $link="https://confluence.mathworks.com/x/cz42J")
     Container(vLeasePowerShell, "Backend Automation", "PowerShell", "Adds and removes VDI pool entitlements based on database records", $link="https://confluence.mathworks.com/x/dj42J")
     ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")
