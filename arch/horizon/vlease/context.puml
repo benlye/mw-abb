@@ -15,10 +15,10 @@ Enterprise_Boundary(mathworks ,"MathWorks") {
         System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
     }
 
-    MailVif(mailVif)
-    ActiveBatch(activeBatch)
-    PingID(pingId)
-    ActiveDirectory(activeDirectory)
+    MwSystem_MailVif(mailVif)
+    MwSystem_ActiveBatch(activeBatch)
+    MwSystem_PingID(pingId)
+    MwSystem_ActiveDirectory(activeDirectory)
 
     System_Ext(teams, "Microsoft Teams", "Communications Platform")
 }

@@ -11,8 +11,8 @@ Container_Boundary(apiApplication, "Web Application") {
     Component(deleteLease, "Delete Lease Controller", "PHP", "Deletes an existing lease")
 }
 
-PingID(pingId)
-ActiveDirectory(activeDirectory)
+MwSystem_PingID(pingId)
+MwSystem_ActiveDirectory(activeDirectory)
 
 ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")
 Rel(webApp, singlePageWebApp, "Delivers to the user's browser")

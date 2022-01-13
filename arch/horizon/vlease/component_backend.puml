@@ -16,9 +16,9 @@ System_Boundary(horizon, "VMware Horizon") {
     System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
 }
 
-ActiveBatch(activeBatch)
-ActiveDirectory(activeDirectory)
-MailVif(mailVif)
+MwSystem_ActiveBatch(activeBatch)
+MwSystem_ActiveDirectory(activeDirectory)
+MwSystem_MailVif(mailVif)
 System_Ext(teams, "Microsoft Teams", "Communications Platform")
 
 ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")

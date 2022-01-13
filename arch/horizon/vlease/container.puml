@@ -16,10 +16,10 @@ System_Boundary(horizon, "VMware Horizon") {
     System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
 }
 
-MailVif(mailVif)
-ActiveBatch(activeBatch)
-PingID(pingId)
-ActiveDirectory(activeDirectory)
+MwSystem_MailVif(mailVif)
+MwSystem_ActiveBatch(activeBatch)
+MwSystem_PingID(pingId)
+MwSystem_ActiveDirectory(activeDirectory)
 
 Rel(vLeasePortal, vLeaseDatabase, "Stores and updates lease records")
 Rel(vLeasePowerShell, vLeaseDatabase, "Retrieves and updates lease records")
