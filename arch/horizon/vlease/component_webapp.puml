@@ -10,8 +10,10 @@ Container_Boundary(apiApplication, "Web Application") {
     Component(extendLease, "Extend Lease Controller", "PHP", "Extends the duration of an existing lease")
     Component(deleteLease, "Delete Lease Controller", "PHP", "Deletes an existing lease")
 }
-System_Ext(pingId, "PingID", "Identity provider")
-System_Ext(activeDirectory, "Active Directory", "Directory Service")
+
+PingID(pingId)
+ActiveDirectory(activeDirectory)
+
 ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")
 Rel(webApp, singlePageWebApp, "Delivers to the user's browser")
 Rel(singlePageWebApp, getLeases, "Makes API calls to", "https")

@@ -16,12 +16,12 @@ System_Boundary(horizon, "VMware Horizon") {
     System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
 }
 
-System_Ext(activeBatch, "ActiveBatch", "Job Scheduling Platform")
-System_Ext(activeDirectory, "Active Directory", "Directory Service")
+ActiveBatch(activeBatch)
+ActiveDirectory(activeDirectory)
+MailVif(mailVif)
+System_Ext(teams, "Microsoft Teams", "Communications Platform")
 
 ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")
-System_Ext(mailVif, "mail-vif", "Internal SMTP relay")
-System_Ext(teams, "Microsoft Teams", "Communications Platform")
 
 Rel(activeBatch, processLeases, "Runs script every 5 minutes")
 Rel(processLeases, activeDirectory, "Retrieves user metadata", "ldaps")

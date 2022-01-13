@@ -6,8 +6,8 @@ Person(mwDeveloper, "MathWorks Developer")
 Person(vLeaseAdmin, "vLease Admin")
 
 System_Boundary(vLease, "vLease System") {
-    Container(vLeasePortal, "Web Application", "PHP, Javscript", "Front end app where users can request and manage short-term virtual desktop leases.")
-    Container(vLeasePowerShell, "Backend Automation", "PowerShell", "Adds and removes VDI pool entitlements based on database records")
+    Container(vLeasePortal, "Web Application", "PHP, Javscript", "Front end app where users can request and manage short-term virtual desktop leases.", $link="https://confluence.mathworks.com/x/cz42J")
+    Container(vLeasePowerShell, "Backend Automation", "PowerShell", "Adds and removes VDI pool entitlements based on database records", $link="https://confluence.mathworks.com/x/dj42J")
     ContainerDb(vLeaseDatabase, "Database", "MariaDB", "Stores lease records")
 }
 
@@ -16,10 +16,10 @@ System_Boundary(horizon, "VMware Horizon") {
     System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
 }
 
-System_Ext(mailVif, "mail-vif", "Internal SMTP relay")
-System_Ext(activeBatch, "ActiveBatch", "Job Scheduling Platform")
-System_Ext(pingId, "PingID", "Identity provider")
-System_Ext(activeDirectory, "Active Directory", "Directory Service")
+MailVif(mailVif)
+ActiveBatch(activeBatch)
+PingID(pingId)
+ActiveDirectory(activeDirectory)
 
 Rel(vLeasePortal, vLeaseDatabase, "Stores and updates lease records")
 Rel(vLeasePowerShell, vLeaseDatabase, "Retrieves and updates lease records")
