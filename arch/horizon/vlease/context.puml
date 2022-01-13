@@ -7,7 +7,7 @@ Enterprise_Boundary(mathworks ,"MathWorks") {
     Person(vLeaseAdmin, "vLease Admin")
 
     System_Boundary(insidePlatform, "Inside Platform") {
-        System(vLease, "vLease System", "App for VDI users to request and manage short-term virtual desktop leases.", $link="https://confluence.mathworks.com/x/aj42J")
+        System(vLease, "vLease", "App for VDI users to request and manage short-term virtual desktop leases.", $link="https://confluence.mathworks.com/x/aj42J")
     }
 
     System_Boundary(horizon, "VMware Horizon") {
