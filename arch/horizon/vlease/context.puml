@@ -1,0 +1,34 @@
+@startuml vlease_context
+!include <C4/C4_Context.puml>
+!include https://raw.githubusercontent.com/benlye/mw-abb/main/lib/mwabb.puml
+
+Person(mwDeveloper, "MathWorks Developer")
+Person(vLeaseAdmin, "vLease Admin")
+
+System_Boundary(insidePlatform, "Inside Platform") {
+    System(vLease, "vLease System", "App for VDI users to request and manage short-term virtual desktop leases.")
+}
+
+System_Boundary(horizon, "VMware Horizon") {
+    System_Ext(horizonVdi_AH, "Horizon (AH)", "VMware Horizon Pool")
+    System_Ext(horizonVdi_BGL, "Horizon (BGL)", "VMware Horizon Pool")
+}
+
+MailVif(mailVif)
+ActiveBatch(activeBatch)
+PingID(pingId)
+ActiveDirectory(activeDirectory)
+
+System_Ext(teams, "Microsoft Teams", "Communications Platform")
+
+Rel(mwDeveloper, vLease, "Requests and manages their own leases", "https")
+Rel(vLeaseAdmin, vLease, "Requests and manages leases on behalf of others", "https")
+Rel(vLease, mailVif, "Sends email using", "smtp")
+Rel(activeBatch, vLease, "Triggers back-end processing every 5 minutes")
+Rel(vLease, horizonVdi_AH, "Manages user entitlements", "https")
+Rel(vLease, horizonVdi_BGL, "Manages user entitlements", "https")
+Rel(vLease, pingId, "Authenticates users", "https")
+Rel(vLease, activeDirectory, "Retrieves user metadata", "ldaps")
+Rel(vLease, teams, "Sends logs to", "https")
+
+@enduml
