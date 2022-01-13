@@ -1,0 +1,19 @@
+@startuml MathWorks Architecture Building Blocks
+
+!unquoted procedure ActiveBatch($alias)
+System_Ext($alias, "ActiveBatch", "Enterprise Job Scheduling Platform", $link="https://confluence.mathworks.com/x/lIjLEQ")
+!endprocedure
+
+!unquoted procedure ActiveDirectory($alias)
+System_Ext($alias, "Active Directory", "Enterprise Directory Service")
+!endprocedure
+
+!unquoted procedure MailVif($alias)
+System_Ext($alias, "mail-vif", "Internal SMTP Mail Relay")
+!endprocedure
+
+!unquoted procedure PingID($alias)
+System_Ext($alias, "PingID", "Enterprise Identity Provider")
+!endprocedure
+
+@enduml
